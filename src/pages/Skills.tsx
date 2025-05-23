@@ -43,6 +43,12 @@ const skills = [
     imgSrc: "https://raw.githubusercontent.com/devicons/devicon/master/icons/kubernetes/kubernetes-plain.svg",
     docLink: "https://kubernetes.io/docs/home/",
   },
+  {
+    name: "Github Actions",
+    imgSrc: "https://miro.medium.com/v2/resize:fit:1400/1*7qk0-4XwCKWQO0GU5Hu39w.png",
+    docLink: "https://docs.github.com/en/actions",
+  },
+
 ];
 
 const Skills = () => {
