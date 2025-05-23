@@ -1,6 +1,6 @@
 import Projects from "./Projects"
 import Contact from "./Contact"
-import FullPageSection from "../components/fullPageSection"
+import FullPageSection from "@/components/fullPageSection"
 import Skills from "./Skills"
 
   /**

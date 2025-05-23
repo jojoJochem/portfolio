@@ -1,6 +1,6 @@
 // pages/Skills.tsx
-import FullPageSection from "../components/fullPageSection";
-import SkillIcon from "../components/skillIcon";
+import FullPageSection from "@/components/fullPageSection";
+import SkillIcon from "@/components/skillIcon";
 
 const skills = [
   {

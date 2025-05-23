@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-import CursorGlow from "./components/cursorGlow";
+import Navbar from "@/components/navbar";
+import CursorGlow from "@/components/cursorGlow";
 
 export default function App() {
   return (

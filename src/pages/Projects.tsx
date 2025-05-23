@@ -1,4 +1,4 @@
-import FullPageSection from "../components/fullPageSection";
+import FullPageSection from "@/components/fullPageSection";
 
 
 const projects = [
