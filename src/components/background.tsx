@@ -195,7 +195,7 @@ const Background = () => {
       // textMesh.castShadow    = true;
       textMesh.receiveShadow = true;
       textMesh.scale.set(2.5, 2, 0.75);
-      textMesh.position.set(onPhone ? 10 : 30, 0, 0);   // 0 on mobile, 10 on desktop
+      textMesh.position.set(onPhone ? 20 : 30, 0, 0);   // 0 on mobile, 10 on desktop
       scene.add(textMesh);
 
       animate();
