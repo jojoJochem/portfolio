@@ -167,17 +167,18 @@ const Background = () => {
       };
 
       // create both letters
-      let geoJ = new TextGeometry('J', opts);
-      let geoO = new TextGeometry('O', opts);
+      const geoJ = new TextGeometry('J', opts);
+      const geoO = new TextGeometry('O', opts);
       geoJ.center();
       geoO.center();
 
       // equalise vertex counts so they can morph
-      [geoJ, geoO] = equaliseVertexCounts(geoJ, geoO);
+      const [geoJPadded, geoOPadded] = equaliseVertexCounts(geoJ, geoO);
 
       // **rebuild normals so the mesh isn’t black**
-      geoJ.computeVertexNormals();
-      geoO.computeVertexNormals();
+      geoJPadded.morphAttributes.position = [geoOPadded.attributes.position];
+      geoJPadded.computeVertexNormals();
+      geoOPadded.computeVertexNormals();
 
       // attach O as morph-target of J
       geoJ.morphAttributes.position = [geoO.attributes.position];
