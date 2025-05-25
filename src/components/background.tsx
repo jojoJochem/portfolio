@@ -43,7 +43,7 @@ function equaliseVertexCounts(
   // pad every attribute on each geometry
   [a, b].forEach((geo) => {
     Object.entries(geo.attributes).forEach(([name, attr]) => {
-      geo.setAttribute(name, padAttr(attr, maxCount));
+      geo.setAttribute(name, padAttr(attr as THREE.BufferAttribute, maxCount));
     });
   });
 
