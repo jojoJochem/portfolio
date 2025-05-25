@@ -62,6 +62,7 @@ const Background = () => {
     // ---------- basic setup ----------
     const canvas   = canvasRef.current!;
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const onPhone = window.matchMedia('(max-width: 767px)').matches;
 
     renderer.shadowMap.enabled  = true;
     renderer.shadowMap.type     = THREE.PCFSoftShadowMap;
@@ -76,7 +77,7 @@ const Background = () => {
       0.1,
       1000
     );
-    camera.position.set(0, 3, 25);
+    camera.position.set(10, 0, 30);   // 30 units away from the origin
 
     // ---------- env-map now safe to apply ----------
     // scene & camera already created
@@ -101,7 +102,7 @@ const Background = () => {
     composer.addPass(
       new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.25,   // strength
+        onPhone ? 1.1 : 0.25,   // strength
         0.1,   // radius
         0.1  // threshold
       )
@@ -194,7 +195,7 @@ const Background = () => {
       // textMesh.castShadow    = true;
       textMesh.receiveShadow = true;
       textMesh.scale.set(2.5, 2, 0.75);
-      textMesh.position.set(10, 0, 0);
+      textMesh.position.set(onPhone ? 0 : 30, 0, 0);   // 0 on mobile, 10 on desktop
       scene.add(textMesh);
 
       animate();
