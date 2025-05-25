@@ -18,7 +18,7 @@ const CursorGlow = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
+      className="fixed top-0 left-0 w-6 h-6 bg-white rounded-full pointer-events-none z-50 mix-blend-difference hidden md:block"
       style={{
         x: smoothX,
         y: smoothY,
