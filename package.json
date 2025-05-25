@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.7",
+    "@types/three": "^0.176.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.12.1",
@@ -20,7 +21,8 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
     "tailwind-merge": "^3.3.0",
-    "tailwindcss-scroll-snap": "^1.1.0"
+    "tailwindcss-scroll-snap": "^1.1.0",
+    "three": "^0.176.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

@@ -8,7 +8,7 @@ interface FullPageSectionProps {
     return (
       <section
         id={id}
-        className={`snap-start backdrop-blur h-screen flex flex-col justify-center items-start px-4 ${className}`}
+        className={`snap-start h-screen flex flex-col justify-center items-start px-4 ${className}`}
       >
         {children}
       </section>
