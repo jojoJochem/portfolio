@@ -1,12 +1,7 @@
 // src/components/ThreeBackground.tsx
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass }      from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-
+import { FontLoader, TextGeometry, EffectComposer,RenderPass, UnrealBloomPass, } from 'three-stdlib';
 
 /**
  * Pads every attribute (position, normal, uv, …) so the two
@@ -81,7 +76,7 @@ const Background = () => {
       0.1,
       1000
     );
-    camera.position.set(0, 5, 25);
+    camera.position.set(0, 3, 25);
 
     // ---------- env-map now safe to apply ----------
     // scene & camera already created
@@ -197,7 +192,7 @@ const Background = () => {
       textMesh = new THREE.Mesh(geoJ, material);
       // textMesh.castShadow    = true;
       textMesh.receiveShadow = true;
-      textMesh.scale.set(2.5, 2, 0.04);
+      textMesh.scale.set(2.5, 2, 0.75);
       textMesh.position.set(10, 0, 0);
       scene.add(textMesh);
 
@@ -207,12 +202,11 @@ const Background = () => {
     // ---------- scroll handling ----------
     const getScrollContainer = () => document.querySelector('main');
     const updateFromScroll = () => {
-      const scrollY = scrollContainer?.scrollTop ?? 0;
-      const cycle = 820;                             // pixels per J→O→J
-      const phase = (scrollY / cycle) % 2;           // 0‥2, repeats
-      targetMorph = phase < 1 ? phase                // 0→1  (J→O)
-                              : 2 - phase;           // 1→0  (O→J)
-
+      const scrollY     = scrollContainer?.scrollTop ?? 0;
+      const snapHeight  = scrollContainer?.clientHeight || window.innerHeight;
+      const phase = ((scrollY / snapHeight) % 2);      // 0 … <2, repeats
+      targetMorph = phase < 1 ? phase                  // 0→1  (J→O)
+                              : 2 - phase;             // 1→0  (O→J)
       targetRotation.set(
         scrollY * 0.002,
         scrollY * 0.002,

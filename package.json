@@ -22,7 +22,8 @@
     "react-router-dom": "^7.6.0",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-scroll-snap": "^1.1.0",
-    "three": "^0.176.0"
+    "three": "^0.176.0",
+    "three-stdlib": "^2.36.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
