@@ -6,15 +6,18 @@ const projects = [
       title: "Laurierboom",
       description: "A lightweight full-stack web application built with Python and JavaScript, for registering and managing participation in chess tournaments in Amsterdam.",
       link: "https://laurierboom.com",
+      linkdes: "View website",
     },    {
       title: "CloudSentinel",
       description: "Implementing AIOps for Enhanced Performance Anomaly Diagnosis and Response in Distributed Cloud Applications.",
       link: "https://github.com/jojoJochem/CloudSentinel",
+      linkdes: "View on GitHub",
     },
     {
       title: "TerrApp",
       description: "A Python-based automation tool that converts structured Excel data into fully formatted Word reports.",
       link: "https://terrapp-production-ff8af6601f6c.herokuapp.com",
+      linkdes: "View website",
     },
   ];
 
@@ -34,7 +37,7 @@ const Projects = () => {
                     className="text-blue-500 mt-2 inline-block"
                     rel="noopener noreferrer"
                 >
-                    View on GitHub →
+                    {proejct.linkdees} →
                 </a>
                 </div>
             ))}
