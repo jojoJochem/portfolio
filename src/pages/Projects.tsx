@@ -3,11 +3,19 @@ import FullPageSection from "@/components/fullPageSection";
 
 const projects = [
     {
+      title: "Laurierboom",
+      description: "A lightweight full-stack web application built with Python and JavaScript, for registering and managing participation in chess tournaments in Amsterdam.",
+      link: "https://laurierboom.com",
+    },    {
       title: "CloudSentinel",
       description: "Implementing AIOps for Enhanced Performance Anomaly Diagnosis and Response in Distributed Cloud Applications.",
       link: "https://github.com/jojoJochem/CloudSentinel",
     },
-
+    {
+      title: "TerrApp",
+      description: "A Python-based automation tool that converts structured Excel data into fully formatted Word reports.",
+      link: "https://github.com/jojoJochem/excel-to-word-generator",
+    },
   ];
 
 const Projects = () => {
