@@ -19,11 +19,6 @@ const skills = [
     docLink: "https://docs.python.org/3/",
   },
   {
-    name: "TailwindCSS",
-    imgSrc: "https://raw.githubusercontent.com/github/explore/261c2cda92d09ccad6f8b2dc91af32a2a5856989/topics/tailwind/tailwind.png",
-    docLink: "https://tailwindcss.com/docs",
-  },
-  {
     name: "Git",
     imgSrc: "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
     docLink: "https://git-scm.com/doc",
