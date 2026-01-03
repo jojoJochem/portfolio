@@ -14,7 +14,7 @@ const projects = [
     {
       title: "TerrApp",
       description: "A Python-based automation tool that converts structured Excel data into fully formatted Word reports.",
-      link: "https://github.com/jojoJochem/excel-to-word-generator",
+      link: "https://terrapp-production-ff8af6601f6c.herokuapp.com",
     },
   ];
 
