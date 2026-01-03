@@ -37,7 +37,7 @@ const Projects = () => {
                     className="text-blue-500 mt-2 inline-block"
                     rel="noopener noreferrer"
                 >
-                    {proejct.linkdees} →
+                    {project.linkdees} →
                 </a>
                 </div>
             ))}
