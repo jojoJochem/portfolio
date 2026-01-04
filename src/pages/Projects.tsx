@@ -118,7 +118,7 @@ const Projects = () => {
             <h2 className="text-4xl font-semibold mb-6 dynamic-contrast" data-dynamic-contrast>
                 Projects
             </h2>
-            <div className="p-4 border rounded-xl shadow">
+            <div className="p-4 border rounded-xl shadow inline-block w-fit max-w-full">
             <div className="space-y-6">
                 {projects.map((project) => (
                 <div key={project.title} className="border p-4 rounded-xl shadow hover:scale-[1.02] transition-transform">
