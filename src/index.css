@@ -4,3 +4,17 @@
 html {
   scroll-behavior: smooth;
 }
+
+.dynamic-contrast {
+  color: #000000;
+  transition: color 150ms ease;
+}
+
+.dynamic-contrast .char {
+  color: #000000;
+  display: inline-block;
+}
+
+.dynamic-contrast .char.is-light {
+  color: #ffffff;
+}

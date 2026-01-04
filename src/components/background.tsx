@@ -135,6 +135,61 @@ const Background = () => {
     const targetLightPos     = new THREE.Vector3(5, 5, 5);
     let   textMesh: THREE.Mesh | null = null;
     let targetMorph = 0;   // 0 = J, 1 = O
+    let lastBoundsDispatch = 0;
+    const raycaster = new THREE.Raycaster();
+
+    const dispatchTextBounds = () => {
+      if (!textMesh) return;
+      const now = performance.now();
+      if (now - lastBoundsDispatch < 60) return;
+      lastBoundsDispatch = now;
+
+      const box = new THREE.Box3().setFromObject(textMesh);
+      const { min, max } = box;
+      const points = [
+        new THREE.Vector3(min.x, min.y, min.z),
+        new THREE.Vector3(min.x, min.y, max.z),
+        new THREE.Vector3(min.x, max.y, min.z),
+        new THREE.Vector3(min.x, max.y, max.z),
+        new THREE.Vector3(max.x, min.y, min.z),
+        new THREE.Vector3(max.x, min.y, max.z),
+        new THREE.Vector3(max.x, max.y, min.z),
+        new THREE.Vector3(max.x, max.y, max.z),
+      ];
+
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+
+      points.forEach((point) => {
+        point.project(camera);
+        const x = (point.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-point.y * 0.5 + 0.5) * window.innerHeight;
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      });
+
+      window.dispatchEvent(
+        new CustomEvent('letter-bounds', {
+          detail: { left: minX, top: minY, right: maxX, bottom: maxY },
+        })
+      );
+    };
+
+    const isLetterHit = (x: number, y: number) => {
+      if (!textMesh) return false;
+      const ndc = new THREE.Vector2(
+        (x / window.innerWidth) * 2 - 1,
+        -(y / window.innerHeight) * 2 + 1
+      );
+      raycaster.setFromCamera(ndc, camera);
+      return raycaster.intersectObject(textMesh, true).length > 0;
+    };
+
+    (window as Window & { __isLetterHit?: (x: number, y: number) => boolean }).__isLetterHit = isLetterHit;
 
     // ---------- animation loop ----------
     function animate() {
@@ -151,6 +206,7 @@ const Background = () => {
       }
 
       pointLight.position.lerp(targetLightPos, 0.06);
+      dispatchTextBounds();
       composer.render();
     }
 
@@ -220,6 +276,7 @@ const Background = () => {
         Math.cos(scrollY * 0.02) * 40,
         30
       );
+      dispatchTextBounds();
     };
 
     const scrollContainer = getScrollContainer();
@@ -232,6 +289,7 @@ const Background = () => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       composer.setSize(window.innerWidth, window.innerHeight);
+      dispatchTextBounds();
     };
     window.addEventListener('resize', handleResize);
 
@@ -239,6 +297,7 @@ const Background = () => {
     return () => {
       window.removeEventListener('scroll', updateFromScroll);
       window.removeEventListener('resize', handleResize);
+      (window as Window & { __isLetterHit?: (x: number, y: number) => boolean }).__isLetterHit = undefined;
       renderer.dispose();
     };
   }, []);
