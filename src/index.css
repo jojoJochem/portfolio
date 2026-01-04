@@ -18,3 +18,10 @@ html {
 .dynamic-contrast .char.is-light {
   color: #ffffff;
 }
+
+@media (max-width: 767px) {
+  .dynamic-contrast .char,
+  .dynamic-contrast .char.is-light {
+    color: #000000;
+  }
+}
