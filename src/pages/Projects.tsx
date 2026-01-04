@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import FullPageSection from "@/components/fullPageSection";
+import thesisPdf from "@/assets/UvA_MSc_SE_Master_Project___Jochem_van_Gaalen.pdf";
 
 
 const projects = [
@@ -11,8 +12,8 @@ const projects = [
     },    {
       title: "CloudSentinel",
       description: "Implementing AIOps for Enhanced Performance Anomaly Diagnosis and Response in Distributed Cloud Applications.",
-      link: "https://github.com/jojoJochem/CloudSentinel",
-      linkdes: "View on GitHub",
+      link: thesisPdf,
+      linkdes: "View thesis",
     },
     {
       title: "TerrApp",

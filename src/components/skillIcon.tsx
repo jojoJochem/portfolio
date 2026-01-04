@@ -3,9 +3,21 @@ interface SkillIconProps {
     name: string;
     imgSrc: string;
     docLink: string;
+    showLabel?: boolean;
+    sizeClass?: string;
+    imgClassName?: string;
+    filterClassName?: string;
   }
 
-  const SkillIcon = ({ name, imgSrc, docLink }: SkillIconProps) => {
+  const SkillIcon = ({
+    name,
+    imgSrc,
+    docLink,
+    showLabel = true,
+    sizeClass = "w-16 h-16 sm:w-20 sm:h-20",
+    imgClassName = "",
+    filterClassName = "filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-110",
+  }: SkillIconProps) => {
     return (
       <a
         href={docLink}
@@ -16,9 +28,11 @@ interface SkillIconProps {
         <img
           src={imgSrc}
           alt={name}
-          className="w-16 h-16 sm:w-20 sm:h-20 object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-110"
+          className={`${sizeClass} object-contain ${filterClassName} ${imgClassName}`}
         />
-        <span className="mt-2 text-sm text-center text-muted-foreground">{name}</span>
+        {showLabel ? (
+          <span className="mt-2 text-sm text-center text-muted-foreground">{name}</span>
+        ) : null}
       </a>
     );
   };
