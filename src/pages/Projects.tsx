@@ -41,13 +41,25 @@ const Projects = () => {
                 const text = el.textContent ?? "";
                 el.textContent = "";
                 const frag = document.createDocumentFragment();
+                const parts = text.split(/(\s+)/);
 
-                Array.from(text).forEach((char) => {
-                    const span = document.createElement("span");
-                    span.className = "char";
-                    span.dataset.dynamicChar = "true";
-                    span.textContent = char === " " ? "\u00A0" : char;
-                    frag.appendChild(span);
+                parts.forEach((part) => {
+                    if (!part) return;
+                    if (/^\s+$/.test(part)) {
+                        frag.appendChild(document.createTextNode(part));
+                        return;
+                    }
+
+                    const word = document.createElement("span");
+                    word.className = "word";
+                    Array.from(part).forEach((char) => {
+                        const span = document.createElement("span");
+                        span.className = "char";
+                        span.dataset.dynamicChar = "true";
+                        span.textContent = char;
+                        word.appendChild(span);
+                    });
+                    frag.appendChild(word);
                 });
 
                 el.appendChild(frag);
@@ -135,7 +147,7 @@ const Projects = () => {
                     <a
                         href={project.link}
                         target="_blank"
-                        className="text-blue-500 mt-2 inline-block"
+                        className="text-blue-500 mt-2 inline-block hover:underline group"
                         rel="noopener noreferrer"
                     >
                         {project.linkdes} →

@@ -25,8 +25,8 @@ const Contact = () => {
         <h2 className="text-4xl font-semibold mb-6">Contact</h2>
         <p>Feel free to reach out if you want to collaborate, chat, or just say hi!</p>
 
-        <ul className="space-y-2 text-lg">
-          <li>Email: <a className="text-blue-500" href="mailto:jochem@vangaalen.org">jochem@vangaalen.org</a></li>
+        <ul className="space-y-2 text-lg ">
+          <li>Email: <a className="text-blue-500 hover:underline group" href="mailto:jochem@vangaalen.org">jochem@vangaalen.org</a></li>
         </ul>
 
         <div className="mt-6 grid grid-cols-2 gap-6 sm:w-fit">
