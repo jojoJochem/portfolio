@@ -25,10 +25,10 @@ const Projects = () => {
     return (
         <FullPageSection id="projects">
         <h2 className="text-4xl font-semibold mb-6">Projects</h2>
-        <div className="p-4 border rounded-xl shadow hover:scale-[1.02] transition-transform">
+        <div className="p-4 border rounded-xl shadow">
         <div className="space-y-6">
             {projects.map((project) => (
-            <div key={project.title} className="border p-4 rounded-xl shadow">
+            <div key={project.title} className="border p-4 rounded-xl shadow hover:scale-[1.02] transition-transform">
                 <h3 className="font-bold text-lg">{project.title}</h3>
                 <p className="text-sm text-muted-foreground">{project.description}</p>
                 <a
