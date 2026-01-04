@@ -62,7 +62,7 @@ const Background = () => {
     // ---------- basic setup ----------
     const canvas   = canvasRef.current!;
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    const onPhone = window.matchMedia('(max-width: 767px)').matches;
+    let isPhone = window.matchMedia('(max-width: 767px)').matches;
 
     renderer.shadowMap.enabled  = true;
     renderer.shadowMap.type     = THREE.PCFSoftShadowMap;
@@ -99,14 +99,13 @@ const Background = () => {
     // ---------- post-processing AFTER camera exists ----------
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(
-      new UnrealBloomPass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
-        onPhone ? 1.1 : 0.25,   // strength
-        0.1,   // radius
-        0.1  // threshold
-      )
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      isPhone ? 1.1 : 0.25,   // strength
+      0.1,   // radius
+      0.1  // threshold
     );
+    composer.addPass(bloomPass);
 
 
     // ---------- lights ----------
@@ -141,7 +140,8 @@ const Background = () => {
     const dispatchTextBounds = () => {
       if (!textMesh) return;
       const now = performance.now();
-      if (now - lastBoundsDispatch < 60) return;
+      const minInterval = isPhone ? 120 : 60;
+      if (now - lastBoundsDispatch < minInterval) return;
       lastBoundsDispatch = now;
 
       const box = new THREE.Box3().setFromObject(textMesh);
@@ -211,6 +211,14 @@ const Background = () => {
     }
 
     // ---------- build the morphable letter ----------
+    const applyResponsiveSettings = () => {
+      isPhone = window.matchMedia('(max-width: 767px)').matches;
+      bloomPass.strength = isPhone ? 1.1 : 0.25;
+      if (textMesh) {
+        textMesh.position.set(isPhone ? 20 : 30, 0, 0);
+      }
+    };
+
     new FontLoader().load('/fonts/helvetiker.typeface.json', (font) => {
       const opts = {
         font,
@@ -251,7 +259,7 @@ const Background = () => {
       // textMesh.castShadow    = true;
       textMesh.receiveShadow = true;
       textMesh.scale.set(2.5, 2, 0.75);
-      textMesh.position.set(onPhone ? 20 : 30, 0, 0);   // 0 on mobile, 10 on desktop
+      applyResponsiveSettings();
       scene.add(textMesh);
 
       animate();
@@ -285,6 +293,7 @@ const Background = () => {
 
     // ---------- resize ----------
     const handleResize = () => {
+      applyResponsiveSettings();
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);

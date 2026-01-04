@@ -26,7 +26,12 @@ const Projects = () => {
     const sectionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
+        const onPhone = window.matchMedia("(max-width: 767px)").matches;
         const boundsRef = { current: null as null | { left: number; right: number; top: number; bottom: number } };
+        const targetItems: { el: HTMLElement; chars: HTMLElement[] }[] = [];
+        let isActive = true;
+        let lastUpdate = 0;
+
         const splitTargets = () => {
             const root = sectionRef.current;
             if (!root) return;
@@ -51,6 +56,23 @@ const Projects = () => {
             });
         };
 
+        const cacheTargets = () => {
+            targetItems.length = 0;
+            const root = sectionRef.current;
+            if (!root) return;
+            const targets = root.querySelectorAll<HTMLElement>("[data-dynamic-contrast]");
+            targets.forEach((el) => {
+                const chars = Array.from(el.querySelectorAll<HTMLElement>("[data-dynamic-char]"));
+                targetItems.push({ el, chars });
+            });
+        };
+
+        const clearAll = () => {
+            targetItems.forEach(({ chars }) => {
+                chars.forEach((charEl) => charEl.classList.remove("is-light"));
+            });
+        };
+
         let rafId: number | null = null;
         const scheduleUpdate = () => {
             if (rafId !== null) return;
@@ -62,18 +84,47 @@ const Projects = () => {
 
         const updateTextColors = () => {
             if (!boundsRef.current) return;
+            if (!isActive) return;
             const root = sectionRef.current;
             if (!root) return;
 
-            const targets = root.querySelectorAll<HTMLElement>("[data-dynamic-contrast]");
-            targets.forEach((el) => {
-                const chars = el.querySelectorAll<HTMLElement>("[data-dynamic-char]");
+            const now = performance.now();
+            const minInterval = onPhone ? 80 : 0;
+            if (now - lastUpdate < minInterval) return;
+            lastUpdate = now;
+
+            const sectionRect = root.getBoundingClientRect();
+            const bounds = boundsRef.current;
+            const sectionOverlap =
+                sectionRect.right > bounds.left &&
+                sectionRect.left < bounds.right &&
+                sectionRect.bottom > bounds.top &&
+                sectionRect.top < bounds.bottom;
+
+            if (!sectionOverlap) {
+                clearAll();
+                return;
+            }
+
+            targetItems.forEach(({ el, chars }) => {
+                const elRect = el.getBoundingClientRect();
+                const elOverlap =
+                    elRect.right > bounds.left &&
+                    elRect.left < bounds.right &&
+                    elRect.bottom > bounds.top &&
+                    elRect.top < bounds.bottom;
+
+                if (!elOverlap) {
+                    chars.forEach((charEl) => charEl.classList.remove("is-light"));
+                    return;
+                }
+
                 chars.forEach((charEl) => {
                     const rect = charEl.getBoundingClientRect();
-                    const overlapLeft = Math.max(rect.left, boundsRef.current!.left);
-                    const overlapRight = Math.min(rect.right, boundsRef.current!.right);
-                    const overlapTop = Math.max(rect.top, boundsRef.current!.top);
-                    const overlapBottom = Math.min(rect.bottom, boundsRef.current!.bottom);
+                    const overlapLeft = Math.max(rect.left, bounds.left);
+                    const overlapRight = Math.min(rect.right, bounds.right);
+                    const overlapTop = Math.max(rect.top, bounds.top);
+                    const overlapBottom = Math.min(rect.bottom, bounds.bottom);
                     const intersects = overlapRight > overlapLeft && overlapBottom > overlapTop;
                     if (!intersects) {
                         charEl.classList.remove("is-light");
@@ -96,8 +147,24 @@ const Projects = () => {
 
         const scrollContainer = document.querySelector("main");
         const onScroll = () => scheduleUpdate();
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                isActive = Boolean(entry?.isIntersecting);
+                if (!isActive) {
+                    clearAll();
+                } else {
+                    scheduleUpdate();
+                }
+            },
+            { root: scrollContainer ?? null, threshold: 0.15 }
+        );
 
         splitTargets();
+        cacheTargets();
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
         window.addEventListener("letter-bounds", onBounds);
         scrollContainer?.addEventListener("scroll", onScroll);
         window.addEventListener("resize", onScroll);
@@ -106,6 +173,7 @@ const Projects = () => {
             window.removeEventListener("letter-bounds", onBounds);
             scrollContainer?.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onScroll);
+            observer.disconnect();
             if (rafId !== null) {
                 window.cancelAnimationFrame(rafId);
             }
